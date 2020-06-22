@@ -46,7 +46,7 @@ Our codes were modified from the implementation of "Adversary Guided Asymmetric 
 @inproceedings{Bai2020,
   author={Cong Bai, Chao Zeng, Qing Ma, Jinglin Zhang and Shengyong Chen.},
   booktitle={Proceedings of the 2020 on International Conference on Multimedia Retrieval},
-  pages={},
+  pages={525-531},
   title={Deep Adversarial Discrete Hashing for Cross-Modal Retrieval},
   year={2020},
 }
