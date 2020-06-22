@@ -32,3 +32,4 @@ def load_nus_wide(path_dir):
 
 def load_pretrain_model(path):
     return scio.loadmat(path)
+
