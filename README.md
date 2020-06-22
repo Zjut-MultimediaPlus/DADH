@@ -30,7 +30,7 @@ The two datasets are provided by the authors of DCMH [Jiang, et al, CVPR'2017], 
 
 ## Framework
 
-![note](framework.png)
+![](framework.png)
 
 ## Result
 
