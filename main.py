@@ -4,8 +4,8 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm
 from datasets.dataset import Dataset
 from config import opt
-from dis_model import DIS
-from gen_model import GEN
+from models.dis_model import DIS
+from models.gen_model import GEN
 from triplet_loss import *
 from torch.optim import Adam
 from utils import calc_map_k, Visualizer
@@ -66,7 +66,7 @@ def train(**kwargs):
         'hash': Adam(discriminator.hash_dis.parameters(), lr=10 * opt.lr, betas=(0.5, 0.9), weight_decay=0.0001)
     }
 
-    tri_loss = TripletLoss(reduction='sum')
+    tri_loss = TripletLoss(opt, reduction='sum')
 
     loss = []
 
