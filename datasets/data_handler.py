@@ -24,6 +24,7 @@ def load_flickr25k(path):
 def load_nus_wide(path_dir):
     data_file = scio.loadmat(path_dir)
     images = data_file['image'][:]
+    ## if use 4096-dims image feature, or you use your own datasets, please undo this step
     images = (images - images.mean()) / images.std()
     tags = data_file['text'][:]
     labels = data_file['label'][:]
