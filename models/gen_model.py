@@ -2,6 +2,7 @@ import torch
 from torch import nn
 import torch.nn.init as init
 import os
+from CNN-F import image_net
 
 
 class GEN(torch.nn.Module):
@@ -9,6 +10,7 @@ class GEN(torch.nn.Module):
         super(GEN, self).__init__()
         self.module_name = 'GEN_module'
         self.output_dim = output_dim
+        self.cnn_f = image_net(pretrain_model)
         self.image_module = nn.Sequential(
             nn.Linear(image_dim, hidden_dim//2, bias=True),
             nn.ReLU(True),
@@ -63,6 +65,7 @@ class GEN(torch.nn.Module):
                 m.bias.data.fill_(0)
 
     def forward(self, x, y):
+        f_x = self.cnn_f(x).squeeze()
         f_x = self.image_module(x).squeeze()
         f_y = self.text_module(y)
 
@@ -77,6 +80,7 @@ class GEN(torch.nn.Module):
         return x_code, y_code, f_x.squeeze(), f_y.squeeze(), x_class, y_class
 
     def generate_img_code(self, i):
+        f_i = self.cnn_f(i).squeeze()
         f_i = self.image_module(i).squeeze()
         f_i = f_i / torch.sqrt(torch.sum(f_i.detach() ** 2))
 
