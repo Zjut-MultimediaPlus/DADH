@@ -27,11 +27,11 @@ python main.py test
 ## Datasets
 - CNN-F: https://pan.baidu.com/s/17R7t1qKNskIDWzLhALYFPg 提取码：cou4 
 - NUS-WIDE: <br>
-&emsp&emspGoogle: https://drive.google.com/file/d/125G-B7sIQPVIcRk4W7qR-tkc6gcBP-mX/view?usp=sharing <br>
-&emsp&emspBaidu: comming soon
+&emsp Google: https://drive.google.com/file/d/125G-B7sIQPVIcRk4W7qR-tkc6gcBP-mX/view?usp=sharing <br>
+&emsp Baidu: comming soon
 - MIRFlickr25K: <br>
-&emsp&emspGoogle: https://drive.google.com/file/d/1Eca2meBpmhnfezkUVqQJo0tJnEpwQwi2/view?usp=sharing <br>
-&emsp&emspBaidu: https://pan.baidu.com/s/14JrUH2AdnvDV1ezs0Qxc5w 提取码：22fs 
+&emsp Google: https://drive.google.com/file/d/1Eca2meBpmhnfezkUVqQJo0tJnEpwQwi2/view?usp=sharing <br>
+&emsp Baidu: https://pan.baidu.com/s/14JrUH2AdnvDV1ezs0Qxc5w 提取码：22fs 
 
 ## Framework
 
