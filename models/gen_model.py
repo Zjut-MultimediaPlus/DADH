@@ -10,7 +10,7 @@ class GEN(torch.nn.Module):
         super(GEN, self).__init__()
         self.module_name = 'GEN_module'
         self.output_dim = output_dim
-        self.cnn_f = image_net(pretrain_model)
+        self.cnn_f = image_net(pretrain_model)   ## if use 4096-dims feature, please undo this step
         self.image_module = nn.Sequential(
             nn.Linear(image_dim, hidden_dim//2, bias=True),
             nn.ReLU(True),
@@ -68,8 +68,8 @@ class GEN(torch.nn.Module):
                 m.bias.data.fill_(0)
 
     def forward(self, x, y):
-        f_x = self.cnn_f(x).squeeze()
-        f_x = self.image_module(f_x).squeeze()
+        x = self.cnn_f(x).squeeze()   ## if use 4096-dims feature, please undo this step
+        f_x = self.image_module(x).squeeze()
         f_y = self.text_module(y)
 
         # normalization
@@ -83,8 +83,8 @@ class GEN(torch.nn.Module):
         return x_code, y_code, f_x.squeeze(), f_y.squeeze(), x_class, y_class
 
     def generate_img_code(self, i):
-        f_i = self.cnn_f(i).squeeze()
-        f_i = self.image_module(f_i).squeeze()
+        i = self.cnn_f(i).squeeze()   ## if use 4096-dims feature, please undo this step
+        f_i = self.image_module(i).squeeze()
         f_i = f_i / torch.sqrt(torch.sum(f_i.detach() ** 2))
 
         code = self.hash_module['image'](f_i.detach()).reshape(-1, self.output_dim)
