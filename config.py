@@ -54,6 +54,20 @@ class Default(object):
     theta = 1
 
     margin = 0.4
+    def parse(self, kwargs):
+    """
+    update configuration by kwargs.
+    """
+    for k, v in kwargs.items():
+        if not hasattr(self, k):
+            warnings.warn("Waning: opt has no attribute %s" % k)
+        setattr(self, k, v)
+
+    print('Configuration:')
+    for k, v in self.__class__.__dict__.items():
+        if not k.startswith('__') and str(k) != 'parse':
+                print('\t{0}: {1}'.format(k, getattr(self, k)))
+
 
 
 opt = Default()
