@@ -23,10 +23,8 @@ python main.py test
 
 ## Datasets
 
-- NUS-WIDE 
-- MIRFlickr25K
-
-The two datasets are provided by the authors of DCMH [Jiang, et al, CVPR'2017], which can be downloaded from their homepage.
+- NUS-WIDE: https://drive.google.com/file/d/125G-B7sIQPVIcRk4W7qR-tkc6gcBP-mX/view?usp=sharing
+- MIRFlickr25K: https://drive.google.com/file/d/1Eca2meBpmhnfezkUVqQJo0tJnEpwQwi2/view?usp=sharing
 
 ## Framework
 
