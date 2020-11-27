@@ -41,7 +41,7 @@ class Default(object):
     max_epoch = 300
 
     output_dim = 64  # hash code length
-    lr = 0.0001  # initial learning rate
+    lr = 0.001  # initial learning rate
 
     device = 'cuda:0'
 
@@ -50,22 +50,24 @@ class Default(object):
     gamma = 1
     beta = 1
     mu = 0.00001
-    lambda = 1
+    lamb = 1
 
     margin = 0.4
-    def parse(self, kwargs):
-    """
-    update configuration by kwargs.
-    """
-    for k, v in kwargs.items():
-        if not hasattr(self, k):
-            warnings.warn("Waning: opt has no attribute %s" % k)
-        setattr(self, k, v)
 
-    print('Configuration:')
-    for k, v in self.__class__.__dict__.items():
-        if not k.startswith('__') and str(k) != 'parse':
-                print('\t{0}: {1}'.format(k, getattr(self, k)))
+    def parse(self, kwargs):
+        """
+        update configuration by kwargs.
+        """
+        for k, v in kwargs.items():
+            if not hasattr(self, k):
+                warnings.warn("Waning: opt has no attribute %s" % k)
+            setattr(self, k, v)
+
+        print('Configuration:')
+        for k, v in self.__class__.__dict__.items():
+            if not k.startswith('__') and str(k) != 'parse':
+                    print('\t{0}: {1}'.format(k, getattr(self, k)))
+
 
 
 
