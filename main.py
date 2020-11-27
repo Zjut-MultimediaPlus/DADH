@@ -66,7 +66,7 @@ def train(**kwargs):
         'hash': Adam(discriminator.hash_dis.parameters(), lr=opt.lr, betas=(0.5, 0.9), weight_decay=0.0001)
     }
 
-    tri_loss = TripletLoss(reduction='sum')
+    tri_loss = TripletLoss(reduction='sum', opt)
 
     loss = []
 
