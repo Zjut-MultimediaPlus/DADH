@@ -45,12 +45,9 @@ def train(**kwargs):
     query_labels = query_labels.to(opt.device)
     db_labels = db_labels.to(opt.device)
 
-    if opt.load_model_path:
-        pretrain_model = None
-    elif opt.pretrain_model_path:
-        pretrain_model = load_pretrain_model(opt.pretrain_model_path)
+    pretrain_model = load_pretrain_model(opt.pretrain_model_path)
 
-    generator = GEN(opt.image_dim, opt.text_dim, opt.hidden_dim, opt.output_dim, opt.num_label, pretrain_model=None).to(opt.device)
+    generator = GEN(opt.image_dim, opt.text_dim, opt.hidden_dim, opt.output_dim, opt.num_label, pretrain_model=pretrain_model).to(opt.device)
 
     discriminator = DIS(opt.hidden_dim//4, opt.hidden_dim//8, opt.output_dim).to(opt.device)
 
