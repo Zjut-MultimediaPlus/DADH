@@ -55,15 +55,15 @@ def train(**kwargs):
     discriminator = DIS(opt.hidden_dim//4, opt.hidden_dim//8, opt.output_dim).to(opt.device)
 
     optimizer = Adam([
-        {'params': generator.image_module.parameters(), 'lr': 0.1 * opt.lr},
+        {'params': generator.image_module.parameters()},
         {'params': generator.text_module.parameters()},
         {'params': generator.hash_module.parameters()},
         {'params': generator.classifier.parameters()}
-    ], lr=10 * opt.lr, weight_decay=0.0005)
+    ], lr=opt.lr, weight_decay=0.0005)
 
     optimizer_dis = {
-        'feature': Adam(discriminator.feature_dis.parameters(), lr=10 * opt.lr, betas=(0.5, 0.9), weight_decay=0.0001),
-        'hash': Adam(discriminator.hash_dis.parameters(), lr=10 * opt.lr, betas=(0.5, 0.9), weight_decay=0.0001)
+        'feature': Adam(discriminator.feature_dis.parameters(), lr=opt.lr, betas=(0.5, 0.9), weight_decay=0.0001),
+        'hash': Adam(discriminator.hash_dis.parameters(), lr=opt.lr, betas=(0.5, 0.9), weight_decay=0.0001)
     }
 
     tri_loss = TripletLoss(opt, reduction='sum')
