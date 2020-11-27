@@ -66,7 +66,7 @@ def train(**kwargs):
         'hash': Adam(discriminator.hash_dis.parameters(), lr=opt.lr, betas=(0.5, 0.9), weight_decay=0.0001)
     }
 
-    tri_loss = TripletLoss(opt, reduction='sum')
+    tri_loss = TripletLoss(reduction='sum')
 
     loss = []
 
@@ -96,7 +96,6 @@ def train(**kwargs):
             h_i, h_t, f_i, f_t, i_class, t_class = generator(imgs, txt)
             H_i[ind, :] = h_i.data
             H_t[ind, :] = h_t.data
-            h_i_detach = generator.generate_img_code(imgs)
             h_t_detach = generator.generate_txt_code(txt)
 
             #####
@@ -157,27 +156,21 @@ def train(**kwargs):
 
             optimizer_dis['hash'].step()
 
-            loss_G_img_feature = -torch.log(torch.ones(batch_size).to(opt.device) - torch.sigmoid(discriminator.dis_feature(f_i))).mean()
             loss_G_txt_feature = -torch.log(torch.sigmoid(discriminator.dis_feature(f_t))).mean()
-            loss_adver_feature = loss_G_img_feature + loss_G_txt_feature
+            loss_adver_feature = loss_G_txt_feature
 
-            loss_G_img_hash = -torch.log(torch.ones(batch_size).to(opt.device) - torch.sigmoid(discriminator.dis_hash(h_i_detach))).mean()
             loss_G_txt_hash = -torch.log(torch.sigmoid(discriminator.dis_hash(h_t_detach))).mean()
-            loss_adver_hash = loss_G_img_hash + loss_G_txt_hash
+            loss_adver_hash = loss_G_txt_hash
 
             tri_i2t = tri_loss(h_i, labels, target=h_t, margin=opt.margin)
             tri_t2i = tri_loss(h_t, labels, target=h_i, margin=opt.margin)
             weighted_cos_tri = tri_i2t + tri_t2i
 
-            cos_label_all = torch.eye(batch_size).to(opt.device)
-            cos_all = F.cosine_similarity(h_i, h_t) * cos_label_all
-            loss_emb = torch.sum(torch.pow(cos_all - cos_label_all, 2))
-
             i_ql = torch.sum(torch.pow(B_i[ind, :] - h_i, 2))
             t_ql = torch.sum(torch.pow(B_t[ind, :] - h_t, 2))
             loss_quant = i_ql + t_ql
             err = 10 * weighted_cos_tri + \
-                  opt.eta * loss_quant + opt.mu * (loss_adver_feature + loss_adver_hash) + opt.theta * loss_emb
+                  opt.eta * loss_quant + opt.mu * (loss_adver_feature + loss_adver_hash)
 
             optimizer.zero_grad()
             err.backward()
