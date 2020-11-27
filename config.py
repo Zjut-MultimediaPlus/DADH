@@ -48,8 +48,8 @@ class Default(object):
     # hyper-parameters
     alpha = 1
     gamma = 0.01
-    eta = 1
-    mu = 0.5
+    beta = 1
+    mu = 0.01
     delta = 1
     theta = 1
 
