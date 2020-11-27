@@ -2,7 +2,7 @@ import torch
 from torch import nn
 import torch.nn.init as init
 import os
-from CNN-F import image_net
+from .CNN_F import image_net
 
 
 class GEN(torch.nn.Module):
