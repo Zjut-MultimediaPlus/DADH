@@ -28,7 +28,7 @@ python main.py test
 - CNN-F: https://pan.baidu.com/s/17R7t1qKNskIDWzLhALYFPg 提取码：cou4 
 - NUS-WIDE: <br>
            -Google: https://drive.google.com/file/d/125G-B7sIQPVIcRk4W7qR-tkc6gcBP-mX/view?usp=sharing <br>
-           -Baidu: comming soon
+           -Baidu: https://pan.baidu.com/s/1Hb4FzOOxqJjR4tDAP5C8rw 提取码：v60x 
 - MIRFlickr25K: <br>
            -Google: https://drive.google.com/file/d/1Eca2meBpmhnfezkUVqQJo0tJnEpwQwi2/view?usp=sharing <br>
            -Baidu: https://pan.baidu.com/s/14JrUH2AdnvDV1ezs0Qxc5w 提取码：22fs 
