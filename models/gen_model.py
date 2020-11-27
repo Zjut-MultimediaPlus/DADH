@@ -51,8 +51,11 @@ class GEN(torch.nn.Module):
     def weight_init(self):
         initializer = self.kaiming_init
         for block in self._modules:
-            for m in self._modules[block]:
-                initializer(m)
+            if block == 'cnn_f':
+                pass
+            else:
+                for m in self._modules[block]:
+                    initializer(m)
 
     def kaiming_init(self, m):
         if isinstance(m, (nn.Linear, nn.Conv2d)):
@@ -66,7 +69,7 @@ class GEN(torch.nn.Module):
 
     def forward(self, x, y):
         f_x = self.cnn_f(x).squeeze()
-        f_x = self.image_module(x).squeeze()
+        f_x = self.image_module(f_x).squeeze()
         f_y = self.text_module(y)
 
         # normalization
@@ -81,7 +84,7 @@ class GEN(torch.nn.Module):
 
     def generate_img_code(self, i):
         f_i = self.cnn_f(i).squeeze()
-        f_i = self.image_module(i).squeeze()
+        f_i = self.image_module(f_i).squeeze()
         f_i = f_i / torch.sqrt(torch.sum(f_i.detach() ** 2))
 
         code = self.hash_module['image'](f_i.detach()).reshape(-1, self.output_dim)
