@@ -102,14 +102,14 @@ def train(**kwargs):
             # train feature discriminator
             #####
             D_real_feature = discriminator.dis_feature(f_i.detach())
-            D_real_feature = -torch.log(torch.sigmoid(D_real_feature)).mean()
+            D_real_feature = -opt.gamma * torch.log(torch.sigmoid(D_real_feature)).mean()
             # D_real_feature = -D_real_feature.mean()
             optimizer_dis['feature'].zero_grad()
             D_real_feature.backward()
 
             # train with fake
             D_fake_feature = discriminator.dis_feature(f_t.detach())
-            D_fake_feature = -torch.log(torch.ones(batch_size).to(opt.device) - torch.sigmoid(D_fake_feature)).mean()
+            D_fake_feature = -opt.gamma * torch.log(torch.ones(batch_size).to(opt.device) - torch.sigmoid(D_fake_feature)).mean()
             # D_fake_feature = D_fake_feature.mean()
             D_fake_feature.backward()
 
@@ -132,13 +132,13 @@ def train(**kwargs):
             # train hash discriminator
             #####
             D_real_hash = discriminator.dis_hash(h_i.detach())
-            D_real_hash = -torch.log(torch.sigmoid(D_real_hash)).mean()
+            D_real_hash = -opt.gamma * torch.log(torch.sigmoid(D_real_hash)).mean()
             optimizer_dis['hash'].zero_grad()
             D_real_hash.backward()
 
             # train with fake
             D_fake_hash = discriminator.dis_hash(h_t.detach())
-            D_fake_hash = -torch.log(torch.ones(batch_size).to(opt.device) - torch.sigmoid(D_fake_hash)).mean()
+            D_fake_hash = -opt.gamma * torch.log(torch.ones(batch_size).to(opt.device) - torch.sigmoid(D_fake_hash)).mean()
             D_fake_hash.backward()
 
             # train with gradient penalty
@@ -169,8 +169,8 @@ def train(**kwargs):
             i_ql = torch.sum(torch.pow(B_i[ind, :] - h_i, 2))
             t_ql = torch.sum(torch.pow(B_t[ind, :] - h_t, 2))
             loss_quant = i_ql + t_ql
-            err = 10 * weighted_cos_tri + \
-                  opt.eta * loss_quant + opt.mu * (loss_adver_feature + loss_adver_hash)
+            err = opt.alpha * weighted_cos_tri + \
+                  opt.beta * loss_quant + opt.gamma * (loss_adver_feature + loss_adver_hash)
 
             optimizer.zero_grad()
             err.backward()
@@ -179,12 +179,12 @@ def train(**kwargs):
             e_loss = err + e_loss
 
         P_i = torch.inverse(
-                L.t() @ L + 1 * torch.eye(opt.num_label, device=opt.device)) @ L.t() @ B_i
+                L.t() @ L + opt.lambda * torch.eye(opt.num_label, device=opt.device)) @ L.t() @ B_i
         P_t = torch.inverse(
-                L.t() @ L + 1 * torch.eye(opt.num_label, device=opt.device)) @ L.t() @ B_t
+                L.t() @ L + opt.lambda * torch.eye(opt.num_label, device=opt.device)) @ L.t() @ B_t
 
-        B_i = (L @ P_i + opt.gamma * H_i).sign()
-        B_t = (L @ P_t + opt.gamma * H_t).sign()
+        B_i = (L @ P_i + opt.mu * H_i).sign()
+        B_t = (L @ P_t + opt.mu * H_t).sign()
         loss.append(e_loss.item())
         print('...epoch: %3d, loss: %3.3f' % (epoch + 1, loss[-1]))
         delta_t = time.time() - t1
