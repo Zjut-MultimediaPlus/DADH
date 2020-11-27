@@ -179,9 +179,9 @@ def train(**kwargs):
             e_loss = err + e_loss
 
         P_i = torch.inverse(
-                L.t() @ L + opt.lambda * torch.eye(opt.num_label, device=opt.device)) @ L.t() @ B_i
+                L.t() @ L + opt.lamb * torch.eye(opt.num_label, device=opt.device)) @ L.t() @ B_i
         P_t = torch.inverse(
-                L.t() @ L + opt.lambda * torch.eye(opt.num_label, device=opt.device)) @ L.t() @ B_t
+                L.t() @ L + opt.lamb * torch.eye(opt.num_label, device=opt.device)) @ L.t() @ B_t
 
         B_i = (L @ P_i + opt.mu * H_i).sign()
         B_t = (L @ P_t + opt.mu * H_t).sign()
