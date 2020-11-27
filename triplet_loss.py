@@ -10,14 +10,14 @@ def cos_distance(source, target):
     return distances
 
 
-def get_triplet_mask(s_labels, t_labels):
+def get_triplet_mask(s_labels, t_labels, opt):
     batch_size = s_labels.shape[0]
     sim_origin = s_labels.mm(t_labels.t())
     sim = (sim_origin > 0).float()
     ideal_list = torch.sort(sim_origin, dim=1, descending=True)[0]
     ph = torch.arange(0., batch_size) + 2
     ph = ph.repeat(1, batch_size).reshape(batch_size, batch_size)
-    th = torch.log2(ph).to('cuda:0')
+    th = torch.log2(ph).to(opt.device)
     Z = (((2 ** ideal_list - 1) / th).sum(axis=1)).reshape(-1, 1)
     sim_origin = 2 ** sim_origin - 1
     sim_origin = sim_origin / Z
@@ -33,9 +33,10 @@ def get_triplet_mask(s_labels, t_labels):
 
 
 class TripletLoss(nn.Module):
-    def __init__(self, reduction='mean'):
+    def __init__(self, opt, reduction='mean'):
         super(TripletLoss, self).__init__()
         self.reduction = reduction
+        self.opt = opt
 
     def forward(self, source, s_labels, target=None, t_labels=None, margin=0):
         if target is None:
@@ -54,7 +55,7 @@ class TripletLoss(nn.Module):
 
         # Put to zero the invalid triplets
         # (where label(a) != label(p) or label(n) == label(a) or a == p)
-        mask, weight = get_triplet_mask(s_labels, t_labels)
+        mask, weight = get_triplet_mask(s_labels, t_labels, self.opt)
         triplet_loss = weight * mask * triplet_loss
 
         # Remove negative losses (i.e. the easy triplets)
