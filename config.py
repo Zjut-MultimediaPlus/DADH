@@ -46,12 +46,11 @@ class Default(object):
     device = 'cuda:0'
 
     # hyper-parameters
-    alpha = 1
-    gamma = 0.01
+    alpha = 10
+    gamma = 1
     beta = 1
-    mu = 0.01
-    delta = 1
-    theta = 1
+    mu = 0.00001
+    lambda = 1
 
     margin = 0.4
     def parse(self, kwargs):
