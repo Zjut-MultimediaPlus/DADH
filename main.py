@@ -52,7 +52,7 @@ def train(**kwargs):
     discriminator = DIS(opt.hidden_dim//4, opt.hidden_dim//8, opt.output_dim).to(opt.device)
 
     optimizer = Adam([
-        {'params': generator.cnn_f.parameters()},
+        # {'params': generator.cnn_f.parameters()},
         {'params': generator.image_module.parameters()},
         {'params': generator.text_module.parameters()},
         {'params': generator.hash_module.parameters()},
