@@ -25,7 +25,7 @@ python main.py test
 ```
 
 ## Datasets
-
+- CNN-F: https://pan.baidu.com/s/12vivgqXOfZyDJl_dop3odA  提取码：r6sv 
 - NUS-WIDE: https://drive.google.com/file/d/125G-B7sIQPVIcRk4W7qR-tkc6gcBP-mX/view?usp=sharing
 - MIRFlickr25K: https://drive.google.com/file/d/1Eca2meBpmhnfezkUVqQJo0tJnEpwQwi2/view?usp=sharing
 
