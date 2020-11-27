@@ -14,6 +14,7 @@ def load_data(path, type='flickr25k'):
 def load_flickr25k(path):
     data_file = scio.loadmat(path)
     images = data_file['images'][:]
+    ## if use 4096-dims image feature, or you use your own datasets, please undo this step
     images = (images - images.mean()) / images.std()
     tags = data_file['YAll'][:]
     labels = data_file['LAll'][:]
