@@ -10,28 +10,7 @@ class Default(object):
     # visualization
     vis_env = 'main'  # visdom env
     vis_port = 8097  # visdom port
-
-    # for flickr25k dataset
-    dataset = 'flickr25k'
-    data_path = './data/FLICKR-25K.mat'
-    db_size = 18015
-    num_label = 24
-    query_size = 2000
-    text_dim = 1386
-    training_size = 10000
-
-#     # # # for nus-wide dataset
-#     dataset = 'nus-wide'
-#     # # data_path = './data/NUS-WIDE-TC10.mat'
-#     data_path = './data/NUS-WIDE-TC21.mat'
-#     db_size = 193734
-#     # # db_size = 184457
-#     num_label = 21
-#     # # num_label = 10
-#     query_size = 2100
-#     text_dim = 1000
-#     training_size = 10000
-
+    
     batch_size = 128
     image_dim = 4096
     hidden_dim = 8192
@@ -54,20 +33,35 @@ class Default(object):
 
     margin = 0.4
 
+    def data(self, flag):
+        if flag == 'mir':
+            self.dataset = 'flickr25k'
+            self.data_path = './data/FLICKR-25K.mat'
+            self.db_size = 18015
+            self.num_label = 24
+            self.query_size = 2000
+            self.text_dim = 1386
+            self.training_size = 10000
+        if flag == 'nus':
+            self.dataset = 'nus-wide'
+            self.data_path = './data/NUS-WIDE-TC21.mat'
+            self.db_size = 193734
+            self.num_label = 21
+            self.query_size = 2100
+            self.text_dim = 1000
+            self.training_size = 10000
+
     def parse(self, kwargs):
         """
         update configuration by kwargs.
         """
         for k, v in kwargs.items():
+            if k == 'flag':
+                self.data(v)
+                continue
             if not hasattr(self, k):
                 warnings.warn("Waning: opt has no attribute %s" % k)
             setattr(self, k, v)
-
-        print('Configuration:')
-        for k, v in self.__class__.__dict__.items():
-            if not k.startswith('__') and str(k) != 'parse':
-                    print('\t{0}: {1}'.format(k, getattr(self, k)))
-
 
 
 
