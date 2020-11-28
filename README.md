@@ -14,8 +14,10 @@ This is the source code of ICMR 2020 paper "Deep Adversarial Discrete Hashing fo
 ```shell
 ##before train##
 python -m visdom.server
-##train our method##
-python main.py train
+##train on MIRFlickr25K##
+python main.py train --flag='mir' --lr=0.001
+##train on NUS-WIDE##
+python main.py train --flag='nus' --lr=0.0001
 ```
 
 ## Test
