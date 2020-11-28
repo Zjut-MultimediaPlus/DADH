@@ -23,7 +23,10 @@ python main.py train --flag='nus' --lr=0.0001
 ## Test
 
 ```shell
-python main.py test
+##test on MIRFlickr25K##
+python main.py test --flag='mir'
+##test on NUS-WIDE##
+python main.py test --flag='nus'
 ```
 
 ## Datasets
