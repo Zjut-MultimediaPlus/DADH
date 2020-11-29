@@ -60,6 +60,8 @@ python main.py test [--flag DATASET] [--output_dim CODE_LENGTH]
            -Google: https://drive.google.com/file/d/1Eca2meBpmhnfezkUVqQJo0tJnEpwQwi2/view?usp=sharing <br>
            -Baidu: https://pan.baidu.com/s/14JrUH2AdnvDV1ezs0Qxc5w 提取码：22fs 
 
+Note: We extracted 4096-d features of the images in the datasets using CNN-F~\cite{Chatfield2014} pre-trained on ImageNet
+
 ## Framework
 
 ![framework](framework.png)
