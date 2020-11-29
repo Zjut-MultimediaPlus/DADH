@@ -19,19 +19,36 @@ pip install -r requirements.txt
 ```shell
 ##before train##
 python -m visdom.server
-##train on MIRFlickr25K##
-python main.py train --flag='mir' --lr=0.001
-##train on NUS-WIDE##
-python main.py train --flag='nus' --lr=0.0001
+##train##
+python main.py train [--flag DATASET] [--batch_size BATCH_SIZE] [--lr LR]
+                     [--valid_freq FRQ] [--output_dim CODE_LENGTH] [--lamb LAMBDA]
+                     [--alpha ALPHA] [--gamma GAMMA] [--beta BETA] [--mu MU]
+                     [--margin MARGIN] [--max_epoch MAX_ITER] [--vis_env VIS_ENV] 
+
+
+optional arguments:
+  --flag DATASET        Dataset name.('mir' or 'nus')
+  --batch_size BATCH_SIZE
+                        Batch size.(default: 128)
+  --lr LR               Learning rate.(default: 1e-3)
+  --valid_freq FRQ      valid frequency.(default: 1)
+  --output_dim CODE_LENGTH
+                        Binary hash code length.(default: 16,32,64)
+  --lamb LAMBDA         Hyper-parameter.(default: 1)
+  --alpha ALPHA         Hyper-parameter.(default: 10)
+  --gamma GAMMA         Hyper-parameter.(default: 1)
+  --beta BETA           Hyper-parameter.(default: 1)
+  --mu MU               Hyper-parameter.(default: 1e-5)
+  --margin MARGIN       Hyper-parameter.(default: 0.4)
+  --max_epoch MAX_ITER  Number of iterations.(default: 300)
+  --vis_env VIS_ENV     visdom environment name.(default: 'main')
 ```
 
 ## Test
 
 ```shell
-##test on MIRFlickr25K##
-python main.py test --flag='mir'
-##test on NUS-WIDE##
-python main.py test --flag='nus'
+##test##
+python main.py test [--flag DATASET] [--output_dim CODE_LENGTH]
 ```
 
 ## Datasets
