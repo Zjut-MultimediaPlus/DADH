@@ -23,7 +23,7 @@ python -m visdom.server
 python main.py train [--flag DATASET] [--batch_size BATCH_SIZE] [--lr LR]
                      [--valid_freq FRQ] [--output_dim CODE_LENGTH] [--lamb LAMBDA]
                      [--alpha ALPHA] [--gamma GAMMA] [--beta BETA] [--mu MU]
-                     [--margin MARGIN] [--max_epoch MAX_ITER] [--vis_env VIS_ENV] 
+                     [--margin MARGIN] [--max_epoch MAX_ITER] [--vis_env VIS_ENV] [--device DEVICE]
 
 
 optional arguments:
@@ -42,6 +42,7 @@ optional arguments:
   --margin MARGIN       Hyper-parameter.(default: 0.4)
   --max_epoch MAX_ITER  Number of iterations.(default: 300)
   --vis_env VIS_ENV     Visdom environment name.(default: 'main')
+  --device DEVICE       If use gpu.(default: 'cuda:0')
 ```
 
 ## Test
