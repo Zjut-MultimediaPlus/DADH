@@ -31,7 +31,7 @@ optional arguments:
   --batch_size BATCH_SIZE
                         Batch size.(default: 128)
   --lr LR               Learning rate.(default: 1e-3)
-  --valid_freq FRQ      valid frequency.(default: 1)
+  --valid_freq FRQ      Valid frequency.(default: 1)
   --output_dim CODE_LENGTH
                         Binary hash code length.(default: 16,32,64)
   --lamb LAMBDA         Hyper-parameter.(default: 1)
@@ -41,7 +41,7 @@ optional arguments:
   --mu MU               Hyper-parameter.(default: 1e-5)
   --margin MARGIN       Hyper-parameter.(default: 0.4)
   --max_epoch MAX_ITER  Number of iterations.(default: 300)
-  --vis_env VIS_ENV     visdom environment name.(default: 'main')
+  --vis_env VIS_ENV     Visdom environment name.(default: 'main')
 ```
 
 ## Test
