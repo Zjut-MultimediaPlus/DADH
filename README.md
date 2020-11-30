@@ -23,14 +23,15 @@ python -m visdom.server
 python main.py train [--flag DATASET] [--batch_size BATCH_SIZE] [--lr LR]
                      [--valid_freq FRQ] [--bit CODE_LENGTH] [--lamb LAMBDA]
                      [--alpha ALPHA] [--gamma GAMMA] [--beta BETA] [--mu MU]
-                     [--margin MARGIN] [--max_epoch MAX_ITER] [--vis_env VIS_ENV] [--device DEVICE]
+                     [--margin MARGIN] [--max_epoch MAX_ITER] [--vis_env VIS_ENV]
+                     [--device DEVICE] [--dropout DROPOUT]
 
 
 optional arguments:
   --flag DATASET        Dataset name.('mir' or 'nus')
   --batch_size BATCH_SIZE
                         Batch size.(default: 128)
-  --lr LR               Learning rate.(default for mir: 1e-3)
+  --lr LR               Learning rate.(default: 1e-4)
   --valid_freq FRQ      Valid frequency.(default: 1)
   --bit CODE_LENGTH
                         Binary hash code length.(default: 16,32,64)
@@ -43,6 +44,7 @@ optional arguments:
   --max_epoch MAX_ITER  Number of iterations.(default: 300)
   --vis_env VIS_ENV     Visdom environment name.(default: 'main')
   --device DEVICE       If use gpu.(default: 'cuda:0')
+  --dropout DROPOUT     If use dropout.(default: False)
 ```
 
 ## Test
