@@ -32,6 +32,7 @@ class Default(object):
     lamb = 1
 
     margin = 0.4
+    dropout = False
 
     def data(self, flag):
         if flag == 'mir':
