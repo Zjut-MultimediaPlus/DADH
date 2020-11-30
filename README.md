@@ -19,7 +19,7 @@ pip install -r requirements.txt
 ```shell
 ##before train##
 python -m visdom.server
-##train##
+##custom train##
 python main.py train [--flag DATASET] [--batch_size BATCH_SIZE] [--lr LR]
                      [--valid_freq FRQ] [--bit CODE_LENGTH] [--lamb LAMBDA]
                      [--alpha ALPHA] [--gamma GAMMA] [--beta BETA] [--mu MU]
@@ -45,6 +45,10 @@ optional arguments:
   --vis_env VIS_ENV     Visdom environment name.(default: 'main')
   --device DEVICE       If use gpu.(default: 'cuda:0')
   --dropout DROPOUT     If use dropout.(default: False)
+  
+##use our settings##
+bash run_mir.sh CODE_LENGTH
+bash run_nus.sh CODE_LENGTH
 ```
 
 ## Test
