@@ -6,26 +6,63 @@ from .CNN_F import image_net
 
 
 class GEN(torch.nn.Module):
-    def __init__(self, image_dim, text_dim, hidden_dim, output_dim, class_dim, pretrain_model=None):
+    def __init__(self, dropout, image_dim, text_dim, hidden_dim, output_dim, class_dim, pretrain_model=None):
         super(GEN, self).__init__()
         self.module_name = 'GEN_module'
         self.output_dim = output_dim
         # self.cnn_f = image_net(pretrain_model)   ## if use 4096-dims feature, pass
-        self.image_module = nn.Sequential(
-            nn.Linear(image_dim, hidden_dim//2, bias=True),
-            nn.ReLU(True),
-            nn.Linear(hidden_dim//2, hidden_dim // 4, bias=True),
-            nn.ReLU(True)
-        )
-
-        self.text_module = nn.Sequential(
-            nn.Linear(text_dim, hidden_dim, bias=True),
-            nn.ReLU(True),
-            nn.Linear(hidden_dim, hidden_dim // 2, bias=True),
-            nn.ReLU(True),
-            nn.Linear(hidden_dim // 2, hidden_dim // 4, bias=True),
-            nn.ReLU(True)
-        )
+        if dropout:
+            self.image_module = nn.Sequential(
+                nn.Linear(image_dim, hidden_dim, bias=True),
+                nn.BatchNorm1d(hidden_dim),
+                nn.ReLU(True),
+                nn.Dropout(0.5),
+                nn.Linear(hidden_dim, hidden_dim // 2, bias=True),
+                nn.BatchNorm1d(hidden_dim // 2),
+                nn.ReLU(True),
+                nn.Dropout(0.5),
+                nn.Linear(hidden_dim // 2, hidden_dim // 4, bias=True),
+                nn.BatchNorm1d(hidden_dim // 4),
+                nn.ReLU(True),
+                nn.Dropout(0.5)
+            )
+            self.text_module = nn.Sequential(
+                nn.Linear(text_dim, hidden_dim, bias=True),
+                nn.BatchNorm1d(hidden_dim),
+                nn.ReLU(True),
+                nn.Dropout(0.5),
+                nn.Linear(hidden_dim, hidden_dim // 2, bias=True),
+                nn.BatchNorm1d(hidden_dim // 2),
+                nn.ReLU(True),
+                nn.Dropout(0.5),
+                nn.Linear(hidden_dim // 2, hidden_dim // 4, bias=True),
+                nn.BatchNorm1d(hidden_dim // 4),
+                nn.ReLU(True),
+                nn.Dropout(0.5),
+            )
+        else:
+            self.image_module = nn.Sequential(
+                nn.Linear(image_dim, hidden_dim, bias=True),
+                nn.BatchNorm1d(hidden_dim),
+                nn.ReLU(True),
+                nn.Linear(hidden_dim, hidden_dim // 2, bias=True),
+                nn.BatchNorm1d(hidden_dim // 2),
+                nn.ReLU(True),
+                nn.Linear(hidden_dim // 2, hidden_dim // 4, bias=True),
+                nn.BatchNorm1d(hidden_dim // 4),
+                nn.ReLU(True),
+            )
+            self.text_module = nn.Sequential(
+                nn.Linear(text_dim, hidden_dim, bias=True),
+                nn.BatchNorm1d(hidden_dim),
+                nn.ReLU(True),
+                nn.Linear(hidden_dim, hidden_dim // 2, bias=True),
+                nn.BatchNorm1d(hidden_dim // 2),
+                nn.ReLU(True),
+                nn.Linear(hidden_dim // 2, hidden_dim // 4, bias=True),
+                nn.BatchNorm1d(hidden_dim // 4),
+                nn.ReLU(True)
+            )
 
         self.hash_module = nn.ModuleDict({
             'image': nn.Sequential(
@@ -36,17 +73,6 @@ class GEN(torch.nn.Module):
             nn.Tanh()),
         })
 
-        self.classifier = nn.ModuleDict({
-            'image': nn.Sequential(
-                nn.Linear(hidden_dim // 4, class_dim, bias=True),
-                nn.Sigmoid()
-            ),
-            'text': nn.Sequential(
-                nn.Linear(hidden_dim // 4, class_dim, bias=True),
-                nn.Sigmoid()
-            ),
-        })
-        self.weight_init()
 
     def weight_init(self):
         initializer = self.kaiming_init
@@ -69,30 +95,22 @@ class GEN(torch.nn.Module):
 
     def forward(self, x, y):
         # x = self.cnn_f(x).squeeze()   ## if use 4096-dims feature, pass
-        f_x = self.image_module(x).squeeze()
+        f_x = self.image_module(x)
         f_y = self.text_module(y)
 
-        # normalization
-        f_x = f_x / torch.sqrt(torch.sum(f_x.detach() ** 2))
-        f_y = f_y / torch.sqrt(torch.sum(f_y.detach() ** 2))
-
-        x_class = self.classifier['image'](f_x).squeeze()
-        y_class = self.classifier['text'](f_y).squeeze()
         x_code = self.hash_module['image'](f_x).reshape(-1, self.output_dim)
         y_code = self.hash_module['text'](f_y).reshape(-1, self.output_dim)
-        return x_code, y_code, f_x.squeeze(), f_y.squeeze(), x_class, y_class
+        return x_code, y_code, f_x.squeeze(), f_y.squeeze()
 
     def generate_img_code(self, i):
         # i = self.cnn_f(i).squeeze()   ## if use 4096-dims feature, pass
-        f_i = self.image_module(i).squeeze()
-        f_i = f_i / torch.sqrt(torch.sum(f_i.detach() ** 2))
+        f_i = self.image_module(i)
 
         code = self.hash_module['image'](f_i.detach()).reshape(-1, self.output_dim)
         return code
 
     def generate_txt_code(self, t):
         f_t = self.text_module(t)
-        f_t = f_t / torch.sqrt(torch.sum(f_t.detach() ** 2))
 
         code = self.hash_module['text'](f_t.detach()).reshape(-1, self.output_dim)
         return code
