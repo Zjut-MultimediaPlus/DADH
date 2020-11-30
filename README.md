@@ -31,7 +31,7 @@ optional arguments:
   --flag DATASET        Dataset name.('mir' or 'nus')
   --batch_size BATCH_SIZE
                         Batch size.(default: 128)
-  --lr LR               Learning rate.(default: 1e-4)
+  --lr LR               Learning rate.(default: 5e-5)
   --valid_freq FRQ      Valid frequency.(default: 1)
   --bit CODE_LENGTH
                         Binary hash code length.(default: 16,32,64)
