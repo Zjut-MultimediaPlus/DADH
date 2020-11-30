@@ -21,7 +21,7 @@ pip install -r requirements.txt
 python -m visdom.server
 ##train##
 python main.py train [--flag DATASET] [--batch_size BATCH_SIZE] [--lr LR]
-                     [--valid_freq FRQ] [--output_dim CODE_LENGTH] [--lamb LAMBDA]
+                     [--valid_freq FRQ] [--bit CODE_LENGTH] [--lamb LAMBDA]
                      [--alpha ALPHA] [--gamma GAMMA] [--beta BETA] [--mu MU]
                      [--margin MARGIN] [--max_epoch MAX_ITER] [--vis_env VIS_ENV] [--device DEVICE]
 
@@ -49,7 +49,7 @@ optional arguments:
 
 ```shell
 ##test##
-python main.py test [--flag DATASET] [--output_dim CODE_LENGTH]
+python main.py test [--flag DATASET] [--bit CODE_LENGTH]
 ```
 
 ## Datasets
