@@ -47,9 +47,9 @@ def train(**kwargs):
 
     pretrain_model = load_pretrain_model(opt.pretrain_model_path)
 
-    generator = GEN(opt.image_dim, opt.text_dim, opt.hidden_dim, opt.output_dim, opt.num_label, pretrain_model=pretrain_model).to(opt.device)
+    generator = GEN(opt.image_dim, opt.text_dim, opt.hidden_dim, opt.bit, opt.num_label, pretrain_model=pretrain_model).to(opt.device)
 
-    discriminator = DIS(opt.hidden_dim//4, opt.hidden_dim//8, opt.output_dim).to(opt.device)
+    discriminator = DIS(opt.hidden_dim//4, opt.hidden_dim//8, opt.bit).to(opt.device)
 
     optimizer = Adam([
         # {'params': generator.cnn_f.parameters()},     ## froze parameters of cnn_f
@@ -76,10 +76,10 @@ def train(**kwargs):
     mapi2t_list = []
     train_times = []
 
-    B_i = torch.randn(opt.training_size, opt.output_dim).sign().to(opt.device)
+    B_i = torch.randn(opt.training_size, opt.bit).sign().to(opt.device)
     B_t = B_i
-    H_i = torch.zeros(opt.training_size, opt.output_dim).to(opt.device)
-    H_t = torch.zeros(opt.training_size, opt.output_dim).to(opt.device)
+    H_i = torch.zeros(opt.training_size, opt.bit).to(opt.device)
+    H_t = torch.zeros(opt.training_size, opt.bit).to(opt.device)
 
     for epoch in range(opt.max_epoch):
         t1 = time.time()
@@ -140,7 +140,7 @@ def train(**kwargs):
             D_fake_hash.backward()
 
             # train with gradient penalty
-            alpha = torch.rand(batch_size, opt.output_dim).to(opt.device)
+            alpha = torch.rand(batch_size, opt.bit).to(opt.device)
             interpolates = alpha * h_i.detach() + (1 - alpha) * h_t.detach()
             interpolates.requires_grad_()
             disc_interpolates = discriminator.dis_hash(interpolates)
@@ -225,7 +225,7 @@ def train(**kwargs):
                                query_labels, db_labels)
         print('   max MAP: MAP(i->t): %3.4f, MAP(t->i): %3.4f' % (mapi2t, mapt2i))
 
-    path = 'checkpoints/' + opt.dataset + '_' + str(opt.output_dim)
+    path = 'checkpoints/' + opt.dataset + '_' + str(opt.bit)
     with open(os.path.join(path, 'result.pkl'), 'wb') as f:
         pickle.dump([train_times, mapi2t_list, mapt2i_list], f)
 
@@ -258,9 +258,9 @@ def test(**kwargs):
 
     # pretrain_model = load_pretrain_model(opt.pretrain_model_path)
 
-    generator = GEN(opt.image_dim, opt.text_dim, opt.hidden_dim, opt.output_dim, opt.num_label).to(opt.device)
+    generator = GEN(opt.image_dim, opt.text_dim, opt.hidden_dim, opt.bit, opt.num_label).to(opt.device)
 
-    path = 'checkpoints/' + opt.dataset + '_' + str(opt.output_dim)
+    path = 'checkpoints/' + opt.dataset + '_' + str(opt.bit)
     load_model(generator, path)
 
     generator.eval()
@@ -292,7 +292,7 @@ def test(**kwargs):
 
 
 def generate_img_code(model, test_dataloader, num):
-    B = torch.zeros(num, opt.output_dim).to(opt.device)
+    B = torch.zeros(num, opt.bit).to(opt.device)
 
     for i, input_data in tqdm(enumerate(test_dataloader)):
         input_data = input_data.to(opt.device)
@@ -305,7 +305,7 @@ def generate_img_code(model, test_dataloader, num):
 
 
 def generate_txt_code(model, test_dataloader, num):
-    B = torch.zeros(num, opt.output_dim).to(opt.device)
+    B = torch.zeros(num, opt.bit).to(opt.device)
 
     for i, input_data in tqdm(enumerate(test_dataloader)):
         input_data = input_data.to(opt.device)
@@ -323,7 +323,7 @@ def load_model(model, path):
 
 
 def save_model(model):
-    path = 'checkpoints/' + opt.dataset + '_' + str(opt.output_dim)
+    path = 'checkpoints/' + opt.dataset + '_' + str(opt.bit)
     model.save(model.module_name + '.pth', path, cuda_device=opt.device)
 
 
