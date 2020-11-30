@@ -32,7 +32,7 @@ optional arguments:
                         Batch size.(default: 128)
   --lr LR               Learning rate.(default: 1e-3)
   --valid_freq FRQ      Valid frequency.(default: 1)
-  --output_dim CODE_LENGTH
+  --bit CODE_LENGTH
                         Binary hash code length.(default: 16,32,64)
   --lamb LAMBDA         Hyper-parameter.(default: 1)
   --alpha ALPHA         Hyper-parameter.(default: 10)
