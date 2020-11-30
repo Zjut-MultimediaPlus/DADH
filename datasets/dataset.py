@@ -1,25 +1,35 @@
 import torch
-
+import numpy as np
 
 class Dataset(torch.utils.data.Dataset):
     def __init__(self, opt, images, tags, labels, test=None):
         self.test = test
+        all_index = np.arange(tags.shape[0])
+        if opt.flag == 'mir':
+            query_index = all_index[opt.db_size:]
+            training_index = all_index[:opt.training_size]
+            db_index = all_index[:opt.db_size]
+        else:
+            query_index = all_index[:opt.query_size]
+            training_index = all_index[opt.query_size: opt.query_size + opt.training_size]
+            db_index = all_index[opt.query_size:]
+
         if test is None:
-            train_images = images[opt.query_size: opt.query_size + opt.training_size]
-            train_tags = tags[opt.query_size: opt.query_size + opt.training_size]
-            train_labels = labels[opt.query_size: opt.query_size + opt.training_size]
+            train_images = images[training_index]
+            train_tags = tags[training_index]
+            train_labels = labels[training_index]
             self.images, self.tags, self.labels = train_images, train_tags, train_labels
         else:
-            self.query_labels = labels[0: opt.query_size]
-            self.db_labels = labels[opt.query_size: opt.query_size + opt.db_size]
+            self.query_labels = labels[query_index]
+            self.db_labels = labels[db_index]
             if test == 'image.query':
-                self.images = images[0: opt.query_size]
+                self.images = images[query_index]
             elif test == 'image.db':
-                self.images = images[opt.query_size: opt.query_size + opt.db_size]
+                self.images = images[db_index]
             elif test == 'text.query':
-                self.tags = tags[0: opt.query_size]
+                self.tags = tags[query_index]
             elif test == 'text.db':
-                self.tags = tags[opt.query_size: opt.query_size + opt.db_size]
+                self.tags = tags[db_index]
 
     def __getitem__(self, index):
         if self.test is None:
