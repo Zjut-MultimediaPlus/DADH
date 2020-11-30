@@ -47,7 +47,7 @@ def train(**kwargs):
 
     pretrain_model = load_pretrain_model(opt.pretrain_model_path)
 
-    generator = GEN(opt.image_dim, opt.text_dim, opt.hidden_dim, opt.bit, opt.num_label, pretrain_model=pretrain_model).to(opt.device)
+    generator = GEN(opt.dropout, opt.image_dim, opt.text_dim, opt.hidden_dim, opt.bit, opt.num_label, pretrain_model=pretrain_model).to(opt.device)
 
     discriminator = DIS(opt.hidden_dim//4, opt.hidden_dim//8, opt.bit).to(opt.device)
 
@@ -55,8 +55,7 @@ def train(**kwargs):
         # {'params': generator.cnn_f.parameters()},     ## froze parameters of cnn_f
         {'params': generator.image_module.parameters()},
         {'params': generator.text_module.parameters()},
-        {'params': generator.hash_module.parameters()},
-        {'params': generator.classifier.parameters()}
+        {'params': generator.hash_module.parameters()}
     ], lr=opt.lr, weight_decay=0.0005)
 
     optimizer_dis = {
@@ -91,7 +90,7 @@ def train(**kwargs):
 
             batch_size = len(ind)
 
-            h_i, h_t, f_i, f_t, i_class, t_class = generator(imgs, txt)
+            h_i, h_t, f_i, f_t = generator(imgs, txt)
             H_i[ind, :] = h_i.data
             H_t[ind, :] = h_t.data
             h_t_detach = generator.generate_txt_code(txt)
