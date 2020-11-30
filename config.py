@@ -10,6 +10,7 @@ class Default(object):
     # visualization
     vis_env = 'main'  # visdom env
     vis_port = 8097  # visdom port
+    flag = 'mir'
     
     batch_size = 128
     image_dim = 4096
@@ -59,7 +60,6 @@ class Default(object):
         for k, v in kwargs.items():
             if k == 'flag':
                 self.data(v)
-                continue
             if not hasattr(self, k):
                 warnings.warn("Waning: opt has no attribute %s" % k)
             setattr(self, k, v)
