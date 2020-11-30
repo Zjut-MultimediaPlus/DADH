@@ -20,7 +20,7 @@ class Default(object):
     max_epoch = 300
 
     bit = 64  # hash code length
-    lr = 0.0001  # initial learning rate
+    lr = 0.00005  # initial learning rate
 
     device = 'cuda:0'
 
