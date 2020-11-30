@@ -63,14 +63,6 @@ python main.py test [--flag DATASET] [--bit CODE_LENGTH]
 
 Note: We extracted 4096-d features of the images in the datasets using CNN-F~\cite{Chatfield2014} pre-trained on ImageNet.
 
-## Framework
-
-![framework](framework.png)
-
-## Result
-
-<img src="result.png" style="zoom: 67%;" />
-
 ## Note
 
 Our codes were modified from the implementation of "Adversary Guided Asymmetric Hashing for Cross-Modal Retrieval", written by Wen Gu. Please cite the  two papers (AGAH and DADH) when you use the codes.
