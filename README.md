@@ -59,7 +59,9 @@ python main.py test [--flag DATASET] [--bit CODE_LENGTH]
 ```
 
 ## Datasets
-- CNN-F: https://pan.baidu.com/s/17R7t1qKNskIDWzLhALYFPg 提取码：cou4 
+- CNN-F: <br>
+         -Google: https://drive.google.com/file/d/1rkjOPzcyXFj_fpqPKqt-R0Vuvd9WPadM/view?usp=sharing <br>
+         -Baidu: https://pan.baidu.com/s/17R7t1qKNskIDWzLhALYFPg 提取码：cou4 
 - NUS-WIDE: <br>
            -Google: https://drive.google.com/file/d/125G-B7sIQPVIcRk4W7qR-tkc6gcBP-mX/view?usp=sharing <br>
            -Baidu: https://pan.baidu.com/s/1Hb4FzOOxqJjR4tDAP5C8rw 提取码：v60x 
