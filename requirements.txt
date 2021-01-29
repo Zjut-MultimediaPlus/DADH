@@ -5,3 +5,5 @@ numpy==1.19.1
 scipy==1.5.2
 tqdm==4.48.0
 visdom==0.1.8.9
+torchvision==0.7.0
+torch==1.6.0
