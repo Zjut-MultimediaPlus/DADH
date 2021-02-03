@@ -6,7 +6,7 @@ from .CNN_F import image_net
 
 
 class GEN(torch.nn.Module):
-    def __init__(self, dropout, image_dim, text_dim, hidden_dim, output_dim, class_dim, pretrain_model=None):
+    def __init__(self, dropout, image_dim, text_dim, hidden_dim, output_dim, pretrain_model=None):
         super(GEN, self).__init__()
         self.module_name = 'GEN_module'
         self.output_dim = output_dim
