@@ -47,7 +47,7 @@ def train(**kwargs):
 
     pretrain_model = load_pretrain_model(opt.pretrain_model_path)
 
-    generator = GEN(opt.dropout, opt.image_dim, opt.text_dim, opt.hidden_dim, opt.bit, opt.num_label, pretrain_model=pretrain_model).to(opt.device)
+    generator = GEN(opt.dropout, opt.image_dim, opt.text_dim, opt.hidden_dim, opt.bit, pretrain_model=pretrain_model).to(opt.device)
 
     discriminator = DIS(opt.hidden_dim//4, opt.hidden_dim//8, opt.bit).to(opt.device)
 
@@ -255,9 +255,10 @@ def test(**kwargs):
     else:
         opt.device = torch.device('cpu')
 
-    # pretrain_model = load_pretrain_model(opt.pretrain_model_path)
+    pretrain_model = load_pretrain_model(opt.pretrain_model_path)
 
-    generator = GEN(opt.image_dim, opt.text_dim, opt.hidden_dim, opt.bit, opt.num_label).to(opt.device)
+    generator = GEN(opt.dropout, opt.image_dim, opt.text_dim, opt.hidden_dim, opt.bit, pretrain_model=pretrain_model).to(opt.device)
+    
 
     path = 'checkpoints/' + opt.dataset + '_' + str(opt.bit)
     load_model(generator, path)
