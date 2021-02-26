@@ -57,7 +57,7 @@ bash run_nus.sh CODE_LENGTH
 ##test##
 python main.py test [--flag DATASET] [--bit CODE_LENGTH]
 ```
-
+note: when you test on "nus", please add "--dropout True" if you use dropout during training.
 ## Datasets
 - CNN-F: <br>
          -Google: https://drive.google.com/file/d/1rkjOPzcyXFj_fpqPKqt-R0Vuvd9WPadM/view?usp=sharing <br>
