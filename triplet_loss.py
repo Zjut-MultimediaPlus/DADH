@@ -56,7 +56,10 @@ class TripletLoss(nn.Module):
         # Put to zero the invalid triplets
         # (where label(a) != label(p) or label(n) == label(a) or a == p)
         mask, weight = get_triplet_mask(s_labels, t_labels, self.opt)
-        triplet_loss = weight * mask * triplet_loss
+        if self.opt.alpha == 10:
+            triplet_loss = weight * mask * triplet_loss
+        else:
+            triplet_loss = mask * triplet_loss
 
         # Remove negative losses (i.e. the easy triplets)
         triplet_loss = triplet_loss.clamp(0)
