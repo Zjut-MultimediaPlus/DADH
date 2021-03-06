@@ -14,6 +14,19 @@ This is the source code of ICMR 2020 paper "Deep Adversarial Discrete Hashing fo
 ##Install required libraries##
 pip install -r requirements.txt
 ```
+## Singularity set up
+
+As an alternative, the file `dadh-singularity.def` contains definitions that can be used to create a [singularity](https://sylabs.io/docs/) image.
+In particular, to build the image, which will contain all the required software, you can use:
+
+    singularity build dadh-singularity.sif dadh-singularity.def
+    
+After that, running
+
+    singularity  run --nv dadh-singularity.sif
+    
+will drop you in a shell inside the running container.
+
 ##  Train
 
 ```shell
