@@ -11,6 +11,7 @@ def cos_distance(source, target):
 
 
 def get_triplet_mask(s_labels, t_labels, opt):
+    flag = (opt.beta - 0.1) * opt.gamma
     batch_size = s_labels.shape[0]
     sim_origin = s_labels.mm(t_labels.t())
     sim = (sim_origin > 0).float()
@@ -26,8 +27,8 @@ def get_triplet_mask(s_labels, t_labels, opt):
     i_equal_k = sim.unsqueeze(1)
     sim_pos = sim_origin.unsqueeze(2)
     sim_neg = sim_origin.unsqueeze(1)
-    weight = sim_pos - sim_neg
-    mask = i_equal_j * (1 - i_equal_k)
+    weight = (sim_pos - sim_neg) * (flag + 0.1)
+    mask = i_equal_j * (1 - i_equal_k) * (flag + 0.1)
 
     return mask, weight
 
@@ -57,7 +58,7 @@ class TripletLoss(nn.Module):
         # (where label(a) != label(p) or label(n) == label(a) or a == p)
         mask, weight = get_triplet_mask(s_labels, t_labels, self.opt)
         if self.opt.alpha == 10:
-            triplet_loss = weight * mask * triplet_loss
+            triplet_loss = 10 * weight * mask * triplet_loss
         else:
             triplet_loss = mask * triplet_loss
 
