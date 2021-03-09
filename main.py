@@ -165,7 +165,7 @@ def train(**kwargs):
             weighted_cos_tri = tri_i2t + tri_t2i
 
             i_ql = torch.sum(torch.pow(B_i[ind, :] - h_i, 2))
-            t_ql = torch.sum(torch.pow(B_t[ind, :] - h_t, 2))
+            t_ql = torch.sum(torch.pow(B_i[ind, :] - h_t, 2))
             loss_quant = i_ql + t_ql
             err = opt.alpha * weighted_cos_tri + \
                   opt.beta * loss_quant + opt.gamma * (loss_adver_feature + loss_adver_hash)
