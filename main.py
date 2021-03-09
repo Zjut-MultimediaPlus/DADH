@@ -16,6 +16,7 @@ import pickle
 
 def train(**kwargs):
     opt.parse(kwargs)
+    opt.beta = opt.beta + 0.1
 
     if opt.vis_env:
         vis = Visualizer(opt.vis_env, port=opt.vis_port)
